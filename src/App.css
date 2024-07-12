@@ -163,3 +163,9 @@ body {
 .seeker input[type="range"] {
   width: 100%;
 }
+
+.display-time{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
