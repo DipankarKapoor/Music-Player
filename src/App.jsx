@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { fetchSongs } from "./API";
 // import Header from './Components/Header';
-import SearchBar from "./Components/SearchBar";
+// import SearchBar from "./Components/SearchBar";
 import SongList from "./Components/SongList";
+import TopSongs from "./Components/TopSongs";
 import PlayerControls from "./Components/PlayerControls";
-// import CustomTabs from './Components/Tabs';
+import Tabs from './Components/Tabs';
 import Seeker from "./Components/Seeker";
 import "./App.css";
 
@@ -19,7 +20,7 @@ const App = () => {
 
   const audioRef = useRef(new Audio());
   //audioRef.current = new Audio(); The ref persists between renders and doesn't change when other state changes cause a re-render
-
+  
   //currentSong is a song object which contains song details
 
   //Runs on mount
@@ -126,6 +127,12 @@ const App = () => {
     audioRef.current.currentTime = time;
     setCurrentTime(time);
   };
+  
+  const tabs = [
+    { label: 'Tab 1', content: <SongList songs={songs} onSelectSong={handleSelectSong}/> },
+    { label: 'Tab 2', content: <TopSongs songs={songs} onSelectSong={handleSelectSong}/> }
+  ];
+
 
   return (
     <>
@@ -138,19 +145,22 @@ const App = () => {
           <img src="./assets/spotify-logo.svg" alt="Spotify Logo" />
           <CgProfile className="profile-icon" />
         </div>
+        
 
+        <Tabs tabs={tabs} />
         {/* <CustomTabs> */}
-        <div className="music-tab" >
+        {/* <div className="music-tab" > */}
           {/* handle search below */}
           {/* <SearchBar onSearch={handleSearch} /> */}
 
-          <SongList
+          {/* <SongList
             songs={songs}
             onSelectSong={handleSelectSong}
           // songDuration={duration}
-          />
-        </div>
-        {/* </CustomTabs> */}
+          /> */}
+
+        {/* </div>
+        </CustomTabs> */}
 
         {/* React if statement, if currentSong exixts then render after && as null values are falsy */}
         {currentSong && (
