@@ -1,17 +1,18 @@
 import React from 'react';
 
-const Seeker = ({ currentTime, duration }) => (
+const Seeker = ({ currentTime, duration, onSeek, formatTime }) => (
   <div className="seeker">
   <div className ="display-time">
-    <div>{currentTime}</div>
-    <div>{duration}</div>
+    <div>{formatTime(currentTime)}</div>
+    <div>{formatTime(duration)}</div>
   </div>
     <input
       type="range"
       min="0"
       max={duration}
       value={currentTime}
-      // onChange={(e) => onSeek(e.target.value)}
+      onChange={(e) => (onSeek(e.target.value))
+      }
     />
   </div>
 );

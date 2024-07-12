@@ -11,8 +11,8 @@ import "./App.css";
 
 const App = () => {
   const [songs, setSongs] = useState([]);
-  const [filteredSongs, setFilteredSongs] = useState([]);
-  const [currentSong, setCurrentSong] = useState(null);
+  // const [filteredSongs, setFilteredSongs] = useState([]);
+  const [currentSong, setCurrentSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -27,22 +27,25 @@ const App = () => {
     const getSongs = async () => {
       const songs = await fetchSongs();
       setSongs(songs);
+      setCurrentSong(songs[0]);
+      setIsPlaying(false);
       // setFilteredSongs(songs); //use of this line ?
     };
     getSongs();
+
   }, []);
 
   //runs every time song changes.
   useEffect(() => {
+
     if (currentSong) {
       audioRef.current.src = currentSong.url;
-      audioRef.current.play();
-      setIsPlaying(true);
+      setIsPlaying(false);
 
       audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
       audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
       audioRef.current.addEventListener("ended", handleSongEnd);
-
+      console.log(currentSong.accent);
       return () => {
         audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
         audioRef.current.removeEventListener(
@@ -54,7 +57,7 @@ const App = () => {
     }
   }, [currentSong]);
 
-  //Convert seconds to minutes and second
+  //Convert song duration in seconds to minutes and seconds
   function formatTime(seconds) {
     if (isNaN(seconds) || seconds < 0) return "00:00";
     const minutes = Math.floor(seconds / 60);
@@ -65,19 +68,13 @@ const App = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }
 
-  
+
   const handleTimeUpdate = () => {
-    //seekbar doesn't work if we format time 
-    const updateTime = formatTime(audioRef.current.currentTime);
-    setCurrentTime(updateTime);
-    console.log(currentTime);
+    setCurrentTime(audioRef.current.currentTime);
   };
 
   const handleLoadedMetadata = () => {
-    //Convert seconds to minutes and second
-    const songDuration = formatTime(audioRef.current.duration);
-    setDuration(songDuration);
-    console.log(songDuration);
+    setDuration(audioRef.current.duration);
   };
 
   const handleSongEnd = () => {
@@ -97,6 +94,7 @@ const App = () => {
     setCurrentSong(song);
   };
 
+  //Toggles play and pause button 
   const handlePlayPause = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -107,63 +105,68 @@ const App = () => {
   };
 
   const handleNext = () => {
-    const currentIndex = filteredSongs.findIndex(
+    //take the songs array and filter out the current song
+    const currentIndex = songs.findIndex(
       (song) => song.id === currentSong.id
     );
-    const nextIndex = (currentIndex + 1) % filteredSongs.length;
-    setCurrentSong(filteredSongs[nextIndex]);
+    const nextIndex = (currentIndex + 1);
+    nextIndex < songs.length ? setCurrentSong(songs[nextIndex]) : null;
   };
 
   const handlePrevious = () => {
-    const currentIndex = filteredSongs.findIndex(
+    //take the songs array and filter out the current song
+    const currentIndex = songs.findIndex(
       (song) => song.id === currentSong.id
     );
-    const prevIndex =
-      (currentIndex - 1 + filteredSongs.length) % filteredSongs.length;
-    setCurrentSong(filteredSongs[prevIndex]);
+    const prevIndex = (currentIndex - 1);
+    prevIndex >= 0 ? setCurrentSong(songs[prevIndex]) : null;
   };
 
-  // const handleSeek = (time) => {
-  //   audioRef.current.currentTime = time;
-  //   setCurrentTime(time);
-  // };
+  const handleSeek = (time) => {
+    audioRef.current.currentTime = time;
+    setCurrentTime(time);
+  };
 
   return (
     <>
       {/* <Header /> */}
-      <div className="app">
+      <div className="app" style={{
+        backgroundColor: '#000000',
+        backgroundImage: currentSong ? `linear-gradient(108.18deg, ${currentSong.accent} 2.46%, rgba(0, 0, 0, 0.6) 99.84%)` : 'none'
+      }}>
         <div className="profile">
           <img src="./assets/spotify-logo.svg" alt="Spotify Logo" />
           <CgProfile className="profile-icon" />
         </div>
 
         {/* <CustomTabs> */}
-        <div className="music-tab">
+        <div className="music-tab" >
           {/* handle search below */}
           {/* <SearchBar onSearch={handleSearch} /> */}
 
           <SongList
             songs={songs}
             onSelectSong={handleSelectSong}
-            songDuration={duration}
+          // songDuration={duration}
           />
         </div>
         {/* </CustomTabs> */}
 
         {/* React if statement, if currentSong exixts then render after && as null values are falsy */}
         {currentSong && (
-          <div className="current-song">
+          <div className="current-song" >
             <h2>{currentSong.name}</h2>
             <h3>{currentSong.artist}</h3>
             <img
               src={`https://cms.samespace.com/assets/${currentSong.cover}`}
               alt={currentSong.title}
             />
-          
+
             <Seeker
               currentTime={currentTime}
               duration={duration}
-              // onSeek={handleSeek}
+              onSeek={handleSeek}
+              formatTime={formatTime}
             />
             <PlayerControls
               isPlaying={isPlaying}

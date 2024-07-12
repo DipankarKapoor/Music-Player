@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SongList = ({ songs, onSelectSong, songDuration }) => (
+const SongList = ({ songs, onSelectSong }) => (
   <div className="song-list">
     {songs.map((song) => (
       <div key={song.id} className="song-item" onClick={() => onSelectSong(song)}>
