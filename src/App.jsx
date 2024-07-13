@@ -19,7 +19,7 @@ const App = () => {
 
   const audioRef = useRef(new Audio());
   //audioRef.current = new Audio(); The ref persists between renders and doesn't change when other state changes cause a re-render
-  
+
   const adaptiveStyle = {
     backgroundColor: '#000000',
     backgroundImage: currentSong ? `linear-gradient(108.18deg, ${currentSong.accent} 2.46%, rgba(0, 0, 0, 0.6) 99.84%)` : 'none'
@@ -131,7 +131,7 @@ const App = () => {
     audioRef.current.currentTime = time;
     setCurrentTime(time);
   };
-  
+
   //Adding components to load for tabs
   const tabs = [
     { label: 'For You', content: <SongList songs={songs} onSelectSong={handleSelectSong} /> },
@@ -146,14 +146,16 @@ const App = () => {
           <img className="logo" src="../public/spotify-logo.svg" alt="Spotify Logo" />
           <CgProfile className="profile-icon" />
         </div>
-        
+
         {/* Loading tabs */}
         <Tabs tabs={tabs} />
 
         {currentSong && (
           <div className="current-song" >
-            <h2>{currentSong.name}</h2>
-            <h3>{currentSong.artist}</h3>
+            <div className="song-name">
+              <h2>{currentSong.name}</h2>
+              <h3>{currentSong.artist}</h3>
+            </div>
             <img
               src={`https://cms.samespace.com/assets/${currentSong.cover}`}
               alt={currentSong.title}
