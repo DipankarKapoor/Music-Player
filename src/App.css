@@ -89,7 +89,7 @@ body {
 }
 
 .tab {
-  /* padding: 10px 20px; */
+  padding-left: 6px;
   cursor: pointer;
   border: none;
   background-color: transparent;
@@ -99,23 +99,32 @@ body {
   font-weight: 700;
   line-height: 32px;
   text-align: left;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tabs .tab:hover {
+  transform: scale(1.05);
 }
 
 .tab.active {
   color: white;
 }
 
-/* 
-.tab-content {
-  padding: 10px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-} */
-
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .song-list {
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
   width: 100%;
   max-width: 600px;
 }
@@ -144,12 +153,10 @@ body {
 }
 
 .current-song {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* gap: 24px; */
 }
 
 .current-song>img {
@@ -166,12 +173,12 @@ body {
   margin: 5px 0;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.3s ease, border-radius 0.3s ease;
 }
 
 .song-item:hover {
   background: rgba(255, 255, 255, 0.08);
-
+  transform: scale(1.01);
 }
 
 .song-item img {
