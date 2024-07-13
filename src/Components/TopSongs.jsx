@@ -4,7 +4,7 @@ const TopSongs = ({ songs, onSelectSong }) => {
   return (
     <div className="song-list">
     {songs.map((song) => (song.top_track && (
-      <div key={song.id} className="song-item" onClick={() => onSelectSong(song)}>
+      <div key={song.id} className="song-item"  onClick={() => onSelectSong(song)}>
         <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.name} />
         <div className="song-info">
           <h4>{song.name}</h4>

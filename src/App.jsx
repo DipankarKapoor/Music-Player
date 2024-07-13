@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { fetchSongs } from "./API";
 // import Header from './Components/Header';
-// import SearchBar from "./Components/SearchBar";
 import SongList from "./Components/SongList";
 import TopSongs from "./Components/TopSongs";
 import PlayerControls from "./Components/PlayerControls";
@@ -21,6 +20,11 @@ const App = () => {
   const audioRef = useRef(new Audio());
   //audioRef.current = new Audio(); The ref persists between renders and doesn't change when other state changes cause a re-render
   
+  const adaptiveStyle = {
+    backgroundColor: '#000000',
+    backgroundImage: currentSong ? `linear-gradient(108.18deg, ${currentSong.accent} 2.46%, rgba(0, 0, 0, 0.6) 99.84%)` : 'none'
+  };
+
   //currentSong is a song object which contains song details
 
   //Runs on mount
@@ -128,41 +132,24 @@ const App = () => {
     setCurrentTime(time);
   };
   
+  //Adding components to load for tabs
   const tabs = [
-    { label: 'Tab 1', content: <SongList songs={songs} onSelectSong={handleSelectSong}/> },
-    { label: 'Tab 2', content: <TopSongs songs={songs} onSelectSong={handleSelectSong}/> }
+    { label: 'For You', content: <SongList songs={songs} onSelectSong={handleSelectSong} /> },
+    { label: 'Top Tracks', content: <TopSongs songs={songs} onSelectSong={handleSelectSong} /> }
   ];
 
 
   return (
     <>
-      {/* <Header /> */}
-      <div className="app" style={{
-        backgroundColor: '#000000',
-        backgroundImage: currentSong ? `linear-gradient(108.18deg, ${currentSong.accent} 2.46%, rgba(0, 0, 0, 0.6) 99.84%)` : 'none'
-      }}>
+      <div className="app" style={adaptiveStyle}>
         <div className="profile">
-          <img src="./assets/spotify-logo.svg" alt="Spotify Logo" />
+          <img className="logo" src="../public/spotify-logo.svg" alt="Spotify Logo" />
           <CgProfile className="profile-icon" />
         </div>
         
-
+        {/* Loading tabs */}
         <Tabs tabs={tabs} />
-        {/* <CustomTabs> */}
-        {/* <div className="music-tab" > */}
-          {/* handle search below */}
-          {/* <SearchBar onSearch={handleSearch} /> */}
 
-          {/* <SongList
-            songs={songs}
-            onSelectSong={handleSelectSong}
-          // songDuration={duration}
-          /> */}
-
-        {/* </div>
-        </CustomTabs> */}
-
-        {/* React if statement, if currentSong exixts then render after && as null values are falsy */}
         {currentSong && (
           <div className="current-song" >
             <h2>{currentSong.name}</h2>
