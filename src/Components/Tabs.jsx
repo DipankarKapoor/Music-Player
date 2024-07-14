@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import SongList from "./Components/SongList";
-// import 'react-tabs/style/react-tabs.css';
 
-const Tabs = ({ tabs }) => {
+const Tabs = ({ tabs, setSongs }) => {
   const [activeTab, setActiveTab] = useState(0);
-  
   // tabs is an array of objects
+
+  // useEffect(() => {
+  //   setSongs();
+  // }, [activeTab, setSongs, tabs]);
 
   return (
     <div className="music-list">

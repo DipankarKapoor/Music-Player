@@ -11,6 +11,7 @@ import "./App.css";
 
 const App = () => {
   const [songs, setSongs] = useState([]);
+  const [topSongs, setTopSongs] = useState([]);
   // const [filteredSongs, setFilteredSongs] = useState([]);
   const [currentSong, setCurrentSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -134,8 +135,8 @@ const App = () => {
 
   //Adding components to load for tabs
   const tabs = [
-    { label: 'For You', content: <SongList songs={songs} onSelectSong={handleSelectSong} /> },
-    { label: 'Top Tracks', content: <TopSongs songs={songs} onSelectSong={handleSelectSong} /> }
+    { label: 'For You', content: <SongList songs={songs} onSelectSong={handleSelectSong} setSongs={setSongs}/> },
+    { label: 'Top Tracks', content: <TopSongs songs={songs} onSelectSong={handleSelectSong} setSongs={setSongs}/> }
   ];
 
 
