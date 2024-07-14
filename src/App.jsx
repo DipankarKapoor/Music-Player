@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CgProfile } from "react-icons/cg";
 import { fetchSongs } from "./API";
-// import Header from './Components/Header';
 import SongList from "./Components/SongList";
 import TopSongs from "./Components/TopSongs";
 import PlayerControls from "./Components/PlayerControls";
