@@ -115,6 +115,7 @@ body {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -236,7 +237,7 @@ body {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.playbar-icons img:hover{
+.playbar-icons img:hover {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
@@ -263,7 +264,7 @@ body {
   filter: brightness(1.2);
 }
 
-.player-controls img{
+.player-controls img {
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -283,12 +284,14 @@ body {
   width: 100%;
   height: 6px;
   cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, filter 0.3s ease;
 }
 
 .seeker input[type="range"]:active {
-    transform: scale(1.1); /* Slightly enlarges the range input on click */
-    filter: brightness(1.2); /* Slightly brightens the range input on click */
+  transform: scale(1.1);
+  /* Slightly enlarges the range input on click */
+  filter: brightness(1.2);
+  /* Slightly brightens the range input on click */
 }
 
 .display-time {

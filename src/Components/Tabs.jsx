@@ -10,16 +10,16 @@ const Tabs = ({ tabs, handleSearch }) => {
     <div className="music-list">
       <div className="tabs">
         {tabs.map((tab, index) => (
-          <button 
-            key={index} 
-            className={`tab ${activeTab === index ? 'active' : ''}`} 
+          <button
+            key={index}
+            className={`tab ${activeTab === index ? 'active' : ''}`}
             onClick={() => setActiveTab(index)}
           >
             <p>{tab.label}</p>
           </button>
         ))}
       </div>
-      <SearchBar onSearch={handleSearch}/>
+      <SearchBar onSearch={handleSearch} />
       <div className="tab-content">
         {tabs[activeTab].content}
       </div>

@@ -110,6 +110,7 @@ const App = () => {
     setIsPlaying(!isPlaying);
   };
 
+  //Next and Previous buttons
   const handleNext = () => {
     //take the songs array and filter out the current song
     const currentIndex = songs.findIndex(
@@ -128,6 +129,7 @@ const App = () => {
     prevIndex >= 0 ? setCurrentSong(songs[prevIndex]) : null;
   };
 
+  //Handle seek bar
   const handleSeek = (time) => {
     audioRef.current.currentTime = time;
     setCurrentTime(time);
@@ -135,8 +137,8 @@ const App = () => {
 
   //Adding components to load for tabs
   const tabs = [
-    { label: 'For You', content: <SongList songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs}/> },
-    { label: 'Top Tracks', content: <TopSongs songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs} setQuery={setQuery}/> }
+    { label: 'For You', content: <SongList songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs} /> },
+    { label: 'Top Tracks', content: <TopSongs songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs} /> }
   ];
 
 
@@ -149,8 +151,7 @@ const App = () => {
         </div>
 
         {/* Loading tabs */}
-        <Tabs tabs={tabs} handleSearch={handleSearch}/>
-   
+        <Tabs tabs={tabs} handleSearch={handleSearch} />
 
         {currentSong && (
           <div className="current-song" >
@@ -162,7 +163,6 @@ const App = () => {
               src={`https://cms.samespace.com/assets/${currentSong.cover}`}
               alt={currentSong.title}
             />
-
             <Seeker
               currentTime={currentTime}
               duration={duration}

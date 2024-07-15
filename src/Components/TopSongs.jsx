@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-const TopSongs = ({ songs, onSelectSong, setSongs, setFilteredSongs,setQuery }) => {
+const TopSongs = ({ songs, onSelectSong, setSongs, setFilteredSongs }) => {
 
   //Setting the top tracks and updating the songs array so that only the current tab is iterated
   useEffect(() => {
     const topTracks = songs.filter((song) => song.top_track);
     setSongs(topTracks);
     setFilteredSongs(topTracks)
-    setQuery("")
+
   }, []);
 
   return (
