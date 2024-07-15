@@ -146,7 +146,7 @@ const App = () => {
     <>
       <div className="app" style={adaptiveStyle}>
         <div className="profile">
-          <img className="logo" src="../public/spotify-logo.svg" alt="Spotify Logo" />
+          <img className="logo" src="./spotify-logo.svg" alt="Spotify Logo" />
           <CgProfile className="profile-icon" />
         </div>
 
