@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 // import SongList from "./Components/SongList";
 
-const Tabs = ({ tabs, setSongs }) => {
+const Tabs = ({ tabs, handleSearch }) => {
   const [activeTab, setActiveTab] = useState(0);
   // tabs is an array of objects
-
-  // useEffect(() => {
-  //   setSongs();
-  // }, [activeTab, setSongs, tabs]);
 
   return (
     <div className="music-list">
@@ -23,7 +19,7 @@ const Tabs = ({ tabs, setSongs }) => {
           </button>
         ))}
       </div>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch}/>
       <div className="tab-content">
         {tabs[activeTab].content}
       </div>

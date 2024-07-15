@@ -10,8 +10,8 @@ import "./App.css";
 
 const App = () => {
   const [songs, setSongs] = useState([]);
-  const [topSongs, setTopSongs] = useState([]);
-  // const [filteredSongs, setFilteredSongs] = useState([]);
+  const [filteredSongs, setFilteredSongs] = useState([]);
+  const [query, setQuery] = useState('');
   const [currentSong, setCurrentSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -19,22 +19,20 @@ const App = () => {
 
   const audioRef = useRef(new Audio());
   //audioRef.current = new Audio(); The ref persists between renders and doesn't change when other state changes cause a re-render
-
+  //currentSong is a song object which contains song details
   const adaptiveStyle = {
     backgroundColor: '#000000',
     backgroundImage: currentSong ? `linear-gradient(108.18deg, ${currentSong.accent} 2.46%, rgba(0, 0, 0, 0.6) 99.84%)` : 'none'
   };
-
-  //currentSong is a song object which contains song details
 
   //Runs on mount
   useEffect(() => {
     const getSongs = async () => {
       const songs = await fetchSongs();
       setSongs(songs);
+      setFilteredSongs(songs);
       setCurrentSong(songs[0]);
       setIsPlaying(false);
-      // setFilteredSongs(songs); //use of this line ?
     };
     getSongs();
 
@@ -50,7 +48,6 @@ const App = () => {
       audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
       audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
       audioRef.current.addEventListener("ended", handleSongEnd);
-      console.log(currentSong.accent);
       return () => {
         audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
         audioRef.current.removeEventListener(
@@ -86,15 +83,19 @@ const App = () => {
     handleNext();
   };
 
-  // const handleSearch = (query) => {
-  //   const filtered = songs.filter(
-  //     (song) =>
-  //       song.title.toLowerCase().includes(query.toLowerCase()) ||
-  //       song.artist.toLowerCase().includes(query.toLowerCase())
-  //   );
-  //   setFilteredSongs(filtered);
-  // };
-
+  const handleSearch = (query) => {
+    setQuery(query);
+    if (query === '') {
+      setFilteredSongs(songs);
+    } else {
+      const filtered = songs.filter(song =>
+        song.name.toLowerCase().includes(query.toLowerCase()) ||
+        song.artist.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredSongs(filtered);
+      setSongs(filtered); //to iterate over the correct list
+    }
+  };
   const handleSelectSong = (song) => {
     setCurrentSong(song);
   };
@@ -134,8 +135,8 @@ const App = () => {
 
   //Adding components to load for tabs
   const tabs = [
-    { label: 'For You', content: <SongList songs={songs} onSelectSong={handleSelectSong} setSongs={setSongs}/> },
-    { label: 'Top Tracks', content: <TopSongs songs={songs} onSelectSong={handleSelectSong} setSongs={setSongs}/> }
+    { label: 'For You', content: <SongList songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs}/> },
+    { label: 'Top Tracks', content: <TopSongs songs={filteredSongs} onSelectSong={handleSelectSong} setSongs={setSongs} setFilteredSongs={setFilteredSongs} setQuery={setQuery}/> }
   ];
 
 
@@ -148,7 +149,8 @@ const App = () => {
         </div>
 
         {/* Loading tabs */}
-        <Tabs tabs={tabs} />
+        <Tabs tabs={tabs} handleSearch={handleSearch}/>
+   
 
         {currentSong && (
           <div className="current-song" >
